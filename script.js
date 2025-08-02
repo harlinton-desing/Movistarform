@@ -1,370 +1,427 @@
-// Formulario de Tratamiento de Datos - JavaScript
-// Diseño Gamer con Bootstrap
-
-// Variables globales
-let formData = {};
-let currentStep = 'consent';
-
-// Datos de planes con precios
-const planes = {
-    TRIO: [
-        { id: 'trio1', name: 'INTERNET FIBRA 900MG TV DIGITAL TV APP 74 CANALES', price: 92393 },
-        { id: 'trio2', name: 'INTERNET FIBRA 900MG TV DIGITAL TV APP 74 CANALES + DISNEY PLUS', price: 100093 },
-        { id: 'trio3', name: 'INTERNET 900MG TV DIGITAL TV APP + WIN FUTBOL', price: 102893 },
-        { id: 'trio4', name: 'INTERNET 900MG TV DIGITAL TV APP + NETFLIX', price: 111293, requiresEstrato6: true }
-    ],
-    DUOS: [
-        { id: 'duos1', name: 'INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES', price: 65093 },
-        { id: 'duos2', name: 'INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES + DISNEY PLUS', price: 72793 },
-        { id: 'duos3', name: 'INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES + WIN FUTBOL', price: 74193 }
-    ],
-    NAKED: [
-        { id: 'naked1', name: 'INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES', price: 62993 },
-        { id: 'naked2', name: 'INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES + DISNEY PLUS', price: 70693 },
-        { id: 'naked3', name: 'INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES + WIN FUTBOL', price: 72093 }
-    ],
-    EXCLUSIVA: [
-        { id: 'exclusiva1', name: 'INTERNET FIBRA 900MG + PSTPAGO ILIMITADO + WIN FUTBOL + PERPLEXITY PRO * 12 MESES + TV DIGITAL TV APP 9 CANALES', price: 89990 },
-        { id: 'exclusiva2', name: 'INTERNET FIBRA 900MG + PSTPAGO ILIMITADO + DISNEY PLUS + PERPLEXITY PRO * 12 MESES + TV DIGITAL TV APP 9 CANALES', price: 89990 }
-    ]
+// Datos de departamentos y municipios principales de Colombia
+const departamentosMunicipios = {
+  amazonas: ['Leticia', 'Puerto Nariño'],
+  antioquia: ['Medellín', 'Bello', 'Itagüí', 'Envigado', 'Rionegro', 'Apartadó', 'Turbo', 'Caucasia'],
+  arauca: ['Arauca', 'Arauquita', 'Saravena', 'Tame'],
+  atlantico: ['Barranquilla', 'Soledad', 'Malambo', 'Galapa', 'Puerto Colombia'],
+  bolivar: ['Cartagena', 'Magangué', 'Arjona', 'Turbaco', 'Clemencia'],
+  boyaca: ['Tunja', 'Duitama', 'Sogamoso', 'Chiquinquirá', 'Paipa'],
+  caldas: ['Manizales', 'La Dorada', 'Chinchiná', 'Villamaría'],
+  caqueta: ['Florencia', 'Morelia', 'Solano', 'San Vicente del Caguán'],
+  casanare: ['Yopal', 'Aguazul', 'Paz de Ariporo'],
+  cauca: ['Popayán', 'Santander de Quilichao', 'Puerto Tejada'],
+  cesar: ['Valledupar', 'Aguachica', 'Codazzi'],
+  choco: ['Quibdó', 'Istmina', 'Condoto'],
+  cordoba: ['Montería', 'Cereté', 'Sahagún'],
+  cundinamarca: ['Fusagasugá', 'Girardot', 'Zipaquirá', 'Soacha'],
+  guainia: ['Inírida'],
+  guaviare: ['San José del Guaviare', 'Calamar'],
+  huila: ['Neiva', 'Pitalito', 'Garzón'],
+  la_guajira: ['Riohacha', 'Maicao', 'Uribia'],
+  magdalena: ['Santa Marta', 'Ciénaga', 'Fundación'],
+  meta: ['Villavicencio', 'Acacías', 'Granada'],
+  narino: ['Pasto', 'Tumaco', 'Ipiales'],
+  norte_santander: ['Cúcuta', 'Ocaña', 'Pamplona'],
+  putumayo: ['Mocoa', 'Puerto Asís', 'Orito'],
+  quindio: ['Armenia', 'Calarcá', 'Montenegro'],
+  risaralda: ['Pereira', 'Dosquebradas', 'La Virginia'],
+  san_andres: ['San Andrés', 'Providencia'],
+  santander: ['Bucaramanga', 'Floridablanca', 'Girón'],
+  sucre: ['Sincelejo', 'Corozal', 'Sampués'],
+  tolima: ['Ibagué', 'Espinal', 'Melgar'],
+  valle_cauca: ['Cali', 'Palmira', 'Buenaventura'],
+  vaupes: ['Mitú'],
+  vichada: ['Puerto Carreño'],
+  bogota_dc: ['Bogotá D.C.']
 };
 
-// Ciudades de Colombia
-const ciudadesColombia = [
-    'Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena', 'Cúcuta', 'Bucaramanga', 'Pereira', 'Santa Marta', 'Ibagué',
-    'Pasto', 'Manizales', 'Neiva', 'Villavicencio', 'Armenia', 'Valledupar', 'Montería', 'Sincelejo', 'Popayán', 'Tunja',
-    'Florencia', 'Riohacha', 'Yopal', 'Quibdó', 'Mocoa', 'San Andrés', 'Leticia', 'Inírida', 'Puerto Carreño', 'Mitú',
-    'Arauca', 'Maicao', 'Turbo', 'Apartadó', 'Bello', 'Itagüí', 'Envigado', 'Palmira', 'Buenaventura', 'Tulua',
-    'Soacha', 'Soledad', 'Floridablanca', 'Dosquebradas', 'Girardot', 'Barrancas', 'Malambo', 'Rionegro', 'Zipaquirá',
-    'Facatativá', 'Chía', 'Fusagasugá', 'Mosquera', 'Madrid', 'Funza', 'Cajicá', 'Sopó', 'La Calera', 'Tocancipá'
-];
+let formData = {};
 
-// Inicialización cuando se carga la página
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
-    setupEventListeners();
-    populateSelects();
+document.addEventListener('DOMContentLoaded', () => {
+  showConsentModal();
+  setupEventListeners();
+  setupRealTimeValidation();
 });
 
-// Inicializar la aplicación
-function initializeApp() {
-    showScreen('consent');
-}
-
-// Configurar event listeners
 function setupEventListeners() {
-    // Botones de consentimiento
-    document.getElementById('acceptBtn').addEventListener('click', handleConsentAccept);
-    document.getElementById('rejectBtn').addEventListener('click', handleConsentReject);
-    
-    // Formulario
-    document.getElementById('registrationForm').addEventListener('submit', handleFormSubmit);
-    document.getElementById('cancelBtn').addEventListener('click', handleCancel);
-    
-    // Botones de resumen
-    document.getElementById('confirmBtn').addEventListener('click', handleConfirm);
-    document.getElementById('correctBtn').addEventListener('click', handleCorrect);
-    
-    // Modal de cancelación
-    document.getElementById('confirmCancelBtn').addEventListener('click', handleCancelConfirm);
-    
-    // Botón de éxito para volver al inicio
-    document.getElementById('successOkBtn').addEventListener('click', handleSuccessOk);
-    
-    // Cambios en estrato y plan
-    document.getElementById('estrato').addEventListener('change', updatePlanOptions);
-    document.getElementById('plan').addEventListener('change', updatePlanPrice);
+  document.getElementById('acceptBtn').addEventListener('click', handleAccept);
+  document.getElementById('rejectBtn').addEventListener('click', handleReject);
+  document.getElementById('registrationForm').addEventListener('submit', handleFormSubmit);
+  document.getElementById('cancelBtn').addEventListener('click', showCancelModal);
+  document.getElementById('departamento').addEventListener('change', updateMunicipios);
+  document.getElementById('plan').addEventListener('change', updatePlanPrice);
+  document.getElementById('estrato').addEventListener('change', updatePlanOptions);
+  document.getElementById('confirmBtn').addEventListener('click', handleConfirm);
+  document.getElementById('correctBtn').addEventListener('click', hideSummaryModal);
+  document.getElementById('submitCancelBtn').addEventListener('click', handleCancelSubmit);
+  document.getElementById('closeCancelBtn').addEventListener('click', hideCancelModal);
+  document.getElementById('closeErrorBtn').addEventListener('click', hideErrorModal);
 }
 
-// Poblar selects con opciones
-function populateSelects() {
-    // Poblar ciudades
-    const ciudadSelect = document.getElementById('ciudadMunicipio');
-    ciudadesColombia.forEach(ciudad => {
-        const option = document.createElement('option');
-        option.value = ciudad;
-        option.textContent = ciudad;
-        ciudadSelect.appendChild(option);
+function setupRealTimeValidation() {
+  document.getElementById('nombreCompleto').addEventListener('blur', validateFullName);
+  document.getElementById('correoElectronico').addEventListener('blur', validateEmail);
+  document.getElementById('celular').addEventListener('input', validatePhone);
+  document.getElementById('numeroDocumento').addEventListener('input', validateDocument);
+}
+
+function showConsentModal() {
+  document.getElementById('consentModal').style.display = 'flex';
+}
+
+function hideConsentModal() {
+  document.getElementById('consentModal').style.display = 'none';
+}
+
+function handleAccept() {
+  hideConsentModal();
+  document.getElementById('mainForm').style.display = 'block';
+  setTimeout(() => {
+    document.getElementById('mainForm').style.opacity = '1';
+  }, 100);
+}
+
+function handleReject() {
+  alert('Si no acepta el tratamiento de datos no es posible enviarle el servicio.');
+}
+
+function updateMunicipios() {
+  const departamentoSelect = document.getElementById('departamento');
+  const municipioSelect = document.getElementById('municipio');
+  const selectedDepartamento = departamentoSelect.value;
+
+  municipioSelect.innerHTML = '<option value="">Seleccionar municipio...</option>';
+
+  if (selectedDepartamento && departamentosMunicipios[selectedDepartamento]) {
+    municipioSelect.disabled = false;
+    departamentosMunicipios[selectedDepartamento].forEach(municipio => {
+      const option = document.createElement('option');
+      option.value = municipio.toLowerCase().replace(/\s+/g, '_');
+      option.textContent = municipio;
+      municipioSelect.appendChild(option);
     });
-    
-    // Poblar planes inicialmente
-    updatePlanOptions();
+  } else {
+    municipioSelect.disabled = true;
+  }
 }
 
-// Mostrar pantalla específica
-function showScreen(screenName) {
-    // Ocultar todas las pantallas
-    document.querySelectorAll('.screen-container').forEach(screen => {
-        screen.classList.add('d-none');
-    });
-    
-    // Mostrar la pantalla solicitada
-    document.getElementById(screenName + 'Screen').classList.remove('d-none');
-    currentStep = screenName;
-}
-
-// Manejar aceptación de consentimiento
-function handleConsentAccept() {
-    showScreen('form');
-}
-
-// Manejar rechazo de consentimiento
-function handleConsentReject() {
-    const modal = new bootstrap.Modal(document.getElementById('rejectModal'));
-    modal.show();
-}
-
-// Manejar envío del formulario
-function handleFormSubmit(e) {
-    e.preventDefault();
-    
-    if (validateForm()) {
-        collectFormData();
-        generateSummary();
-        showScreen('summary');
-    }
-}
-
-// Validar formulario
-function validateForm() {
-    const form = document.getElementById('registrationForm');
-    const inputs = form.querySelectorAll('input[required], select[required]');
-    let isValid = true;
-    let firstError = null;
-    
-    // Limpiar validaciones anteriores
-    inputs.forEach(input => {
-        input.classList.remove('is-invalid', 'is-valid');
-    });
-    
-    // Validar nombre completo (debe tener al menos nombre y apellido)
-    const nombreCompleto = document.getElementById('nombreCompleto').value.trim();
-    const nombreParts = nombreCompleto.split(' ').filter(part => part.length > 0);
-    
-    if (nombreParts.length < 2) {
-        showValidationError('El nombre completo debe incluir nombre y apellido');
-        document.getElementById('nombreCompleto').classList.add('is-invalid');
-        return false;
-    }
-    
-    // Validar campos requeridos
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            input.classList.add('is-invalid');
-            isValid = false;
-            if (!firstError) {
-                firstError = getFieldLabel(input.id) + ' es requerido';
-            }
-        } else {
-            input.classList.add('is-valid');
-        }
-    });
-    
-    if (!isValid) {
-        showValidationError(firstError);
-        return false;
-    }
-    
-    // Validar formato de email
-    const email = document.getElementById('correoElectronico').value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showValidationError('El formato del correo electrónico no es válido');
-        document.getElementById('correoElectronico').classList.add('is-invalid');
-        return false;
-    }
-    
-    // Validar fechas
-    const today = new Date();
-    const fechaNacimiento = new Date(document.getElementById('fechaNacimiento').value);
-    const fechaExpedicion = new Date(document.getElementById('fechaExpedicion').value);
-    
-    if (fechaNacimiento >= today) {
-        showValidationError('La fecha de nacimiento debe ser anterior a hoy');
-        document.getElementById('fechaNacimiento').classList.add('is-invalid');
-        return false;
-    }
-    
-    if (fechaExpedicion >= today) {
-        showValidationError('La fecha de expedición debe ser anterior a hoy');
-        document.getElementById('fechaExpedicion').classList.add('is-invalid');
-        return false;
-    }
-    
-    return true;
-}
-
-// Obtener etiqueta del campo
-function getFieldLabel(fieldId) {
-    const labels = {
-        'nombreCompleto': 'Nombre Completo',
-        'tipoDocumento': 'Tipo de Documento',
-        'numeroDocumento': 'Número de Documento',
-        'fechaExpedicion': 'Fecha de Expedición',
-        'fechaNacimiento': 'Fecha de Nacimiento',
-        'correoElectronico': 'Correo Electrónico',
-        'direccionCompleta': 'Dirección Completa',
-        'ciudadMunicipio': 'Ciudad o Municipio',
-        'barrio': 'Barrio',
-        'estrato': 'Estrato',
-        'celular': 'Celular',
-        'plan': 'Plan'
-    };
-    return labels[fieldId] || fieldId;
-}
-
-// Mostrar error de validación
-function showValidationError(message) {
-    document.getElementById('validationMessage').textContent = message;
-    const modal = new bootstrap.Modal(document.getElementById('validationModal'));
-    modal.show();
-}
-
-// Recopilar datos del formulario
-function collectFormData() {
-    const form = document.getElementById('registrationForm');
-    const formElements = form.elements;
-    
-    formData = {};
-    for (let element of formElements) {
-        if (element.name || element.id) {
-            const key = element.name || element.id;
-            formData[key] = element.value;
-        }
-    }
-}
-
-// Actualizar opciones de planes según el estrato
-function updatePlanOptions() {
-    const estrato = document.getElementById('estrato').value;
-    const planSelect = document.getElementById('plan');
-    
-    // Limpiar opciones existentes
-    planSelect.innerHTML = '<option value="">Seleccione un plan</option>';
-    
-    // Agregar planes por categoría
-    Object.keys(planes).forEach(categoria => {
-        planes[categoria].forEach(plan => {
-            // Verificar si el plan requiere estrato 6
-            if (plan.requiresEstrato6 && estrato !== '6') {
-                return; // Saltar este plan
-            }
-            
-            const option = document.createElement('option');
-            option.value = plan.id;
-            option.textContent = `${categoria} - ${plan.name} - $${plan.price.toLocaleString('es-CO')}`;
-            
-            if (plan.requiresEstrato6 && estrato !== '6') {
-                option.disabled = true;
-                option.textContent += ' (Solo Estrato 6)';
-            }
-            
-            planSelect.appendChild(option);
-        });
-    });
-    
-    // Actualizar precio si hay un plan seleccionado
-    updatePlanPrice();
-}
-
-// Actualizar precio del plan
 function updatePlanPrice() {
-    const planId = document.getElementById('plan').value;
-    const valorPlanInput = document.getElementById('valorPlan');
-    
-    if (!planId) {
-        valorPlanInput.value = '';
-        return;
-    }
-    
-    // Buscar el plan en todas las categorías
-    let selectedPlan = null;
-    Object.keys(planes).forEach(categoria => {
-        const plan = planes[categoria].find(p => p.id === planId);
-        if (plan) {
-            selectedPlan = plan;
-        }
-    });
-    
-    if (selectedPlan) {
-        const estrato = document.getElementById('estrato').value;
-        
-        if (selectedPlan.requiresEstrato6 && estrato !== '6') {
-            valorPlanInput.value = 'No disponible para este estrato';
-        } else {
-            valorPlanInput.value = `$${selectedPlan.price.toLocaleString('es-CO')}`;
-        }
-    }
+  const planSelect = document.getElementById('plan');
+  const valorPlanInput = document.getElementById('valorPlan');
+  const selectedOption = planSelect.options[planSelect.selectedIndex];
+
+  if (selectedOption && selectedOption.dataset.price) {
+    const price = parseInt(selectedOption.dataset.price);
+    valorPlanInput.value = `$${price.toLocaleString('es-CO')}`;
+  } else {
+    valorPlanInput.value = '';
+  }
 }
 
-// Generar resumen de datos
-function generateSummary() {
-    const summaryContent = document.getElementById('summaryContent');
-    
-    // Obtener nombre del plan seleccionado
-    let planName = formData.plan;
-    Object.keys(planes).forEach(categoria => {
-        const plan = planes[categoria].find(p => p.id === formData.plan);
-        if (plan) {
-            planName = `${categoria} - ${plan.name}`;
+function updatePlanOptions() {
+  const estratoSelect = document.getElementById('estrato');
+  const planSelect = document.getElementById('plan');
+  const estrato = estratoSelect.value;
+
+  const allOptions = planSelect.querySelectorAll('option');
+
+  allOptions.forEach(option => {
+    if (option.dataset.estrato === '6') {
+      if (estrato === '6') {
+        option.disabled = false;
+        option.style.display = 'block';
+      } else {
+        option.disabled = true;
+        option.style.display = 'none';
+        if (option.selected) {
+          planSelect.value = '';
+          document.getElementById('valorPlan').value = '';
         }
-    });
-    
-    summaryContent.innerHTML = `
-        <div class="col-md-6">
-            <div class="summary-card glass-effect neon-border animate-pulse-border">
-                <h5 class="neon-text">🎮 Datos Personales</h5>
-                <p><span class="text-purple">👤 Nombre:</span> ${formData.nombreCompleto}</p>
-                <p><span class="text-purple">📄 Documento:</span> ${formData.tipoDocumento} ${formData.numeroDocumento}</p>
-                <p><span class="text-purple">📅 Expedición:</span> ${formData.fechaExpedicion}</p>
-                <p><span class="text-purple">🎂 Nacimiento:</span> ${formData.fechaNacimiento}</p>
-            </div>
-        </div>
-        
-        <div class="col-md-6">
-            <div class="summary-card glass-effect neon-border animate-pulse-border">
-                <h5 class="neon-text">📞 Contacto</h5>
-                <p><span class="text-purple">📧 Email:</span> ${formData.correoElectronico}</p>
-                <p><span class="text-purple">📱 Celular:</span> ${formData.celular}</p>
-            </div>
-        </div>
-        
-        <div class="col-md-6">
-            <div class="summary-card glass-effect neon-border animate-pulse-border">
-                <h5 class="neon-text">🏠 Ubicación</h5>
-                <p><span class="text-purple">🏘️ Dirección:</span> ${formData.direccionCompleta}</p>
-                <p><span class="text-purple">🌆 Ciudad:</span> ${formData.ciudadMunicipio}</p>
-                <p><span class="text-purple">🏘️ Barrio:</span> ${formData.barrio}</p>
-                <p><span class="text-purple">🏢 Estrato:</span> ${formData.estrato}</p>
-            </div>
-        </div>
-        
-        <div class="col-md-6">
-            <div class="summary-card glass-effect neon-border animate-pulse-border">
-                <h5 class="neon-text">📦 Plan Seleccionado</h5>
-                <p><span class="text-purple">🎯 Plan:</span> ${planName}</p>
-                <p><span class="text-purple">💰 Valor:</span> ${formData.valorPlan}</p>
-            </div>
-        </div>
-    `;
+      }
+    }
+  });
 }
 
-// Manejar confirmación final
+function validateFullName() {
+  const nameInput = document.getElementById('nombreCompleto');
+  const name = nameInput.value.trim();
+  const words = name.split(/\s+/).filter(word => word.length > 0);
+
+  if (words.length < 2) {
+    showFieldError(nameInput, 'El nombre debe contener al menos nombre y apellido');
+    return false;
+  }
+
+  clearFieldError(nameInput);
+  return true;
+}
+
+function validateEmail() {
+  const emailInput = document.getElementById('correoElectronico');
+  const email = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    showFieldError(emailInput, 'Ingrese un correo electrónico válido');
+    return false;
+  }
+
+  clearFieldError(emailInput);
+  return true;
+}
+
+function validatePhone() {
+  const phoneInput = document.getElementById('celular');
+  const phone = phoneInput.value.replace(/\D/g, '');
+
+  if (phone.length !== 10) {
+    showFieldError(phoneInput, 'El celular debe tener 10 dígitos');
+    return false;
+  }
+
+  clearFieldError(phoneInput);
+  return true;
+}
+
+function validateDocument() {
+  const docInput = document.getElementById('numeroDocumento');
+  const doc = docInput.value.replace(/\D/g, '');
+
+  if (doc.length < 6 || doc.length > 12) {
+    showFieldError(docInput, 'El número de documento debe tener entre 6 y 12 dígitos');
+    return false;
+  }
+
+  clearFieldError(docInput);
+  return true;
+}
+
+function showFieldError(input, message) {
+  input.style.borderColor = '#dc3545';
+  input.style.boxShadow = '0 0 10px rgba(220, 53, 69, 0.5)';
+
+  const existingError = input.parentNode.querySelector('.field-error');
+  if (existingError) {
+    existingError.remove();
+  }
+
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'field-error';
+  errorDiv.style.color = '#dc3545';
+  errorDiv.style.fontSize = '0.9rem';
+  errorDiv.style.marginTop = '0.25rem';
+  errorDiv.textContent = message;
+  input.parentNode.appendChild(errorDiv);
+}
+
+function clearFieldError(input) {
+  input.style.borderColor = 'rgba(147, 51, 234, 0.3)';
+  input.style.boxShadow = 'none';
+
+  const existingError = input.parentNode.querySelector('.field-error');
+  if (existingError) {
+    existingError.remove();
+  }
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault();
+
+  if (validateForm()) {
+    collectFormData();
+    showSummaryModal();
+  }
+}
+
+function validateForm() {
+  const requiredFields = [
+    { id: 'nombreCompleto', name: 'Nombre Completo', validator: validateFullName },
+    { id: 'tipoDocumento', name: 'Tipo de Documento' },
+    { id: 'numeroDocumento', name: 'Número de Documento', validator: validateDocument },
+    { id: 'fechaExpedicion', name: 'Fecha de Expedición' },
+    { id: 'fechaNacimiento', name: 'Fecha de Nacimiento' },
+    { id: 'correoElectronico', name: 'Correo Electrónico', validator: validateEmail },
+    { id: 'direccionCompleta', name: 'Dirección Completa' },
+    { id: 'departamento', name: 'Departamento' },
+    { id: 'municipio', name: 'Municipio' },
+    { id: 'barrio', name: 'Barrio' },
+    { id: 'estrato', name: 'Estrato' },
+    { id: 'celular', name: 'Celular', validator: validatePhone },
+    { id: 'plan', name: 'Plan' }
+  ];
+
+  for (const field of requiredFields) {
+    const input = document.getElementById(field.id);
+    const value = input.value.trim();
+
+    if (!value) {
+      showErrorModal(`El campo "${field.name}" es obligatorio.`);
+      input.focus();
+      return false;
+    }
+
+    if (field.validator && !field.validator()) {
+      input.focus();
+      return false;
+    }
+  }
+
+  if (!validateDates()) {
+    return false;
+  }
+
+  return true;
+}
+
+function validateDates() {
+  const fechaNacimiento = new Date(document.getElementById('fechaNacimiento').value);
+  const fechaExpedicion = new Date(document.getElementById('fechaExpedicion').value);
+  const today = new Date();
+
+  if (fechaNacimiento > today) {
+    showErrorModal('La fecha de nacimiento no puede ser futura.');
+    return false;
+  }
+
+  if (fechaExpedicion > today) {
+    showErrorModal('La fecha de expedición no puede ser futura.');
+    return false;
+  }
+
+  if (fechaExpedicion < fechaNacimiento) {
+    showErrorModal('La fecha de expedición debe ser posterior a la fecha de nacimiento.');
+    return false;
+  }
+
+  const age = today.getFullYear() - fechaNacimiento.getFullYear();
+  const monthDiff = today.getMonth() - fechaNacimiento.getMonth();
+
+  if (age < 18 || (age === 18 && monthDiff < 0) || (age === 18 && monthDiff === 0 && today.getDate() < fechaNacimiento.getDate())) {
+    showErrorModal('Debe ser mayor de 18 años para registrarse.');
+    return false;
+  }
+
+  return true;
+}
+
+function collectFormData() {
+  formData = {
+    nombreCompleto: document.getElementById('nombreCompleto').value.trim(),
+    tipoDocumento: document.getElementById('tipoDocumento').options[document.getElementById('tipoDocumento').selectedIndex].text,
+    numeroDocumento: document.getElementById('numeroDocumento').value.trim(),
+    fechaExpedicion: formatDate(document.getElementById('fechaExpedicion').value),
+    fechaNacimiento: formatDate(document.getElementById('fechaNacimiento').value),
+    correoElectronico: document.getElementById('correoElectronico').value.trim(),
+    direccionCompleta: document.getElementById('direccionCompleta').value.trim(),
+    departamento: document.getElementById('departamento').options[document.getElementById('departamento').selectedIndex].text,
+    municipio: document.getElementById('municipio').options[document.getElementById('municipio').selectedIndex].text,
+    barrio: document.getElementById('barrio').value.trim(),
+    estrato: document.getElementById('estrato').value,
+    celular: document.getElementById('celular').value.trim(),
+    plan: document.getElementById('plan').options[document.getElementById('plan').selectedIndex].text,
+    valorPlan: document.getElementById('valorPlan').value
+  };
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-CO', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+function showSummaryModal() {
+  const summaryContent = document.getElementById('summaryContent');
+  summaryContent.innerHTML = generateSummaryHTML();
+  document.getElementById('summaryModal').style.display = 'flex';
+}
+
+function hideSummaryModal() {
+  document.getElementById('summaryModal').style.display = 'none';
+}
+
+function generateSummaryHTML() {
+  return `
+    <div class="summary-item">
+      <span class="summary-label">👤 Nombre Completo:</span>
+      <span class="summary-value">${formData.nombreCompleto}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">📄 Tipo de Documento:</span>
+      <span class="summary-value">${formData.tipoDocumento}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">🔢 Número de Documento:</span>
+      <span class="summary-value">${formData.numeroDocumento}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">📅 Fecha de Expedición:</span>
+      <span class="summary-value">${formData.fechaExpedicion}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">🎂 Fecha de Nacimiento:</span>
+      <span class="summary-value">${formData.fechaNacimiento}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">📧 Correo Electrónico:</span>
+      <span class="summary-value">${formData.correoElectronico}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">🏠 Dirección:</span>
+      <span class="summary-value">${formData.direccionCompleta}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">🏢 Departamento:</span>
+      <span class="summary-value">${formData.departamento}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">🏘️ Municipio:</span>
+      <span class="summary-value">${formData.municipio}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">🏡 Barrio:</span>
+      <span class="summary-value">${formData.barrio}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">⚡ Estrato:</span>
+      <span class="summary-value">${formData.estrato}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">📱 Celular:</span>
+      <span class="summary-value">${formData.celular}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">📺 Plan:</span>
+      <span class="summary-value">${formData.plan}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">💰 Valor del Plan:</span>
+      <span class="summary-value">${formData.valorPlan}</span>
+    </div>
+  `;
+}
+
 function handleConfirm() {
-    // Obtener nombre del plan para el mensaje
-    let planName = formData.plan;
-    Object.keys(planes).forEach(categoria => {
-        const plan = planes[categoria].find(p => p.id === formData.plan);
-        if (plan) {
-            planName = `${categoria} - ${plan.name}`;
-        }
-    });
-    
-    const message = `🎮 *NUEVO REGISTRO DE CLIENTE* 🎮
+  const whatsappMessage = generateWhatsAppMessage();
+  const whatsappURL = `https://wa.me/573102689105?text=${encodeURIComponent(whatsappMessage)}`;
+
+  showCustomAlert('✅ ÉXITO', 'Sus datos han sido procesados correctamente. Se abrirá WhatsApp para enviar la información.', 'success');
+
+  setTimeout(() => {
+    window.open(whatsappURL, '_blank');
+    hideSummaryModal();
+    resetForm();
+  }, 2000);
+}
+
+function generateWhatsAppMessage() {
+  return `🌟 *NUEVA SOLICITUD DE SERVICIO* 🌟
 
 👤 *Datos Personales:*
 • Nombre: ${formData.nombreCompleto}
-• Documento: ${formData.tipoDocumento} ${formData.numeroDocumento}
+• ${formData.tipoDocumento}: ${formData.numeroDocumento}
 • Expedición: ${formData.fechaExpedicion}
 • Nacimiento: ${formData.fechaNacimiento}
 
@@ -374,138 +431,116 @@ function handleConfirm() {
 
 🏠 *Ubicación:*
 • Dirección: ${formData.direccionCompleta}
-• Ciudad: ${formData.ciudadMunicipio}
+• Departamento: ${formData.departamento}
+• Municipio: ${formData.municipio}
 • Barrio: ${formData.barrio}
 • Estrato: ${formData.estrato}
 
-📦 *Plan Seleccionado:*
-• Plan: ${planName}
+📺 *Servicio Solicitado:*
+• Plan: ${formData.plan}
 • Valor: ${formData.valorPlan}
 
-✅ *Cliente acepta tratamiento de datos personales*`;
+✅ *El cliente acepta el tratamiento de datos según la Ley 1581 de 2012*
 
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-    
-    // Mostrar modal de éxito después de un breve delay
-    setTimeout(() => {
-        showSuccessModal();
-    }, 1000);
+🚀 ¡Listo para activar el servicio!`;
 }
 
-// Mostrar modal de éxito
-function showSuccessModal() {
-    const modal = new bootstrap.Modal(document.getElementById('successModal'));
-    modal.show();
+function showCancelModal() {
+  document.getElementById('cancelModal').style.display = 'flex';
 }
 
-// Manejar botón OK del modal de éxito
-function handleSuccessOk() {
-    // Cerrar modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById('successModal'));
-    modal.hide();
-    
-    // Limpiar formulario
-    document.getElementById('registrationForm').reset();
-    formData = {};
-    
-    // Volver al inicio
-    showScreen('consent');
+function hideCancelModal() {
+  document.getElementById('cancelModal').style.display = 'none';
+  document.getElementById('cancelReason').value = '';
 }
 
-// Manejar corrección (volver al formulario)
-function handleCorrect() {
-    showScreen('form');
+function handleCancelSubmit() {
+  const reason = document.getElementById('cancelReason').value.trim();
+
+  if (!reason) {
+    showCustomAlert('⚠️ ATENCIÓN', 'Por favor, ingrese el motivo de cancelación.', 'warning');
+    return;
+  }
+
+  showCustomAlert('📝 CANCELACIÓN REGISTRADA', `Motivo: ${reason}\n\nGracias por su tiempo. La página se cerrará en 3 segundos.`, 'info');
+
+  setTimeout(() => {
+    window.close();
+  }, 3000);
 }
 
-// Manejar cancelación
-function handleCancel() {
-    const modal = new bootstrap.Modal(document.getElementById('cancelModal'));
-    modal.show();
+function showErrorModal(message) {
+  document.getElementById('errorMessage').textContent = message;
+  document.getElementById('errorModal').style.display = 'flex';
 }
 
-// Confirmar cancelación
-function handleCancelConfirm() {
-    const reason = document.getElementById('cancelReason').value.trim();
-    
-    if (!reason) {
-        alert('Por favor ingrese el motivo de cancelación');
-        return;
+function hideErrorModal() {
+  document.getElementById('errorModal').style.display = 'none';
+}
+
+function showCustomAlert(title, message, type) {
+  const alertModal = document.createElement('div');
+  alertModal.className = 'modal-overlay';
+  alertModal.style.zIndex = '10000';
+
+  const alertContainer = document.createElement('div');
+  alertContainer.className = 'error-container gamer-card';
+
+  if (type === 'success') {
+    alertContainer.style.borderColor = '#10b981';
+    alertContainer.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)';
+  } else if (type === 'warning') {
+    alertContainer.style.borderColor = '#f59e0b';
+    alertContainer.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.3)';
+  }
+
+  alertContainer.innerHTML = `
+    <div class="error-header">
+      <h2 class="gamer-title">${title}</h2>
+    </div>
+    <div class="error-content">
+      <p class="gamer-text" style="white-space: pre-line;">${message}</p>
+    </div>
+    <div class="error-buttons">
+      <button class="btn-close-error gamer-button" onclick="this.closest('.modal-overlay').remove()">ENTENDIDO</button>
+    </div>
+  `;
+
+  alertModal.appendChild(alertContainer);
+  document.body.appendChild(alertModal);
+
+  setTimeout(() => {
+    if (alertModal.parentNode) {
+      alertModal.remove();
     }
-    
-    alert(`Motivo de cancelación registrado: ${reason}`);
-    
-    // Cerrar modal y limpiar
-    const modal = bootstrap.Modal.getInstance(document.getElementById('cancelModal'));
-    modal.hide();
-    document.getElementById('cancelReason').value = '';
-    
-    // Volver al inicio
-    showScreen('consent');
+  }, 5000);
 }
 
-// Funciones de utilidad
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('es-CO', {
-        style: 'currency',
-        currency: 'COP',
-        minimumFractionDigits: 0
-    }).format(amount);
+function resetForm() {
+  document.getElementById('registrationForm').reset();
+  document.getElementById('valorPlan').value = '';
+  document.getElementById('municipio').innerHTML = '<option value="">Seleccionar municipio...</option>';
+  document.getElementById('municipio').disabled = true;
+  formData = {};
 }
 
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function validateDate(dateString) {
-    const date = new Date(dateString);
-    const today = new Date();
-    return date < today;
-}
-
-// Manejo de errores globales
 window.addEventListener('error', function(e) {
-    console.error('Error en la aplicación:', e.error);
+  console.error('Error en la aplicación:', e.error);
+  showCustomAlert('⚠️ ERROR', 'Ha ocurrido un error inesperado. Por favor, recargue la página.', 'error');
 });
 
-// Prevenir envío accidental del formulario
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && e.target.tagName !== 'BUTTON' && e.target.type !== 'submit') {
-        e.preventDefault();
+window.addEventListener('beforeunload', function(e) {
+  const formInputs = document.querySelectorAll('#registrationForm input, #registrationForm select');
+  let hasData = false;
+
+  formInputs.forEach(input => {
+    if (input.value.trim() !== '') {
+      hasData = true;
     }
+  });
+
+  if (hasData && !confirm('¿Está seguro de que desea salir? Se perderán los datos ingresados.')) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
 });
-
-// Animaciones adicionales al cambiar de pantalla
-function addScreenTransition(screenName) {
-    const screen = document.getElementById(screenName + 'Screen');
-    screen.classList.add('fade-in');
-    
-    setTimeout(() => {
-        screen.classList.remove('fade-in');
-    }, 500);
-}
-
-// Validación en tiempo real
-document.addEventListener('input', function(e) {
-    if (e.target.classList.contains('gamer-input')) {
-        // Remover clases de validación mientras el usuario escribe
-        e.target.classList.remove('is-invalid', 'is-valid');
-    }
-});
-
-// Mejorar accesibilidad
-document.addEventListener('keydown', function(e) {
-    // Navegación con teclado para modales
-    if (e.key === 'Escape') {
-        const openModals = document.querySelectorAll('.modal.show');
-        openModals.forEach(modal => {
-            const modalInstance = bootstrap.Modal.getInstance(modal);
-            if (modalInstance) {
-                modalInstance.hide();
-            }
-        });
-    }
-});
-
-console.log('🎮 Formulario de Tratamiento de Datos - Gamer Style cargado correctamente');

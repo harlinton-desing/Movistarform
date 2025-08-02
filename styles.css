@@ -331,9 +331,28 @@ body {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .form-header-image {
+        height: 40vh;
+    }
+    .registration-form {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+    .form-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .btn-submit, .btn-cancel {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.75rem 0;
+    }
+}
+
 @media (max-width: 768px) {
     .gamer-title {
-        font-size: 1.8rem !important;
+        font-size: 1.6rem !important;
     }
     
     .animate-float {
@@ -345,7 +364,7 @@ body {
     }
     
     .form-header-image {
-        height: 200px;
+        height: 30vh;
     }
     
     .gamer-button {
@@ -356,16 +375,25 @@ body {
 
 @media (max-width: 576px) {
     .gamer-title {
-        font-size: 1.5rem !important;
+        font-size: 1.4rem !important;
     }
     
     .consent-box {
-        padding: 15px !important;
+        padding: 10px !important;
     }
     
     .gamer-button {
         font-size: 0.8rem;
         padding: 8px 16px;
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+    }
+    
+    .form-control, .form-select {
+        font-size: 0.9rem;
+        padding: 0.5rem;
     }
 }
 
@@ -901,5 +929,3 @@ body {
       object-fit: contain; /* mantiene la proporción sin recortar */
       background: black;
     }
-
-

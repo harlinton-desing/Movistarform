@@ -451,7 +451,7 @@ body {
 .consent-header .header-image {
     width: 100%;
     height: auto;
-    max-height: 840px;
+    max-height: 300px;
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 2rem;
@@ -901,8 +901,5 @@ body {
       object-fit: contain; /* mantiene la proporción sin recortar */
       background: black;
     }
-
-
-
 
 

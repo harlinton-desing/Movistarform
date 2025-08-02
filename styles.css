@@ -342,11 +342,13 @@ body {
     .form-buttons {
         flex-direction: column;
         gap: 1rem;
+        align-items: stretch;
     }
     .btn-submit, .btn-cancel {
         width: 100%;
-        font-size: 1rem;
-        padding: 0.75rem 0;
+        font-size: 1.1rem;
+        padding: 1rem 0;
+        border-radius: 12px;
     }
 }
 
@@ -383,8 +385,9 @@ body {
     }
     
     .gamer-button {
-        font-size: 0.8rem;
-        padding: 8px 16px;
+        font-size: 1rem;
+        padding: 12px 20px;
+        border-radius: 14px;
     }
     
     .form-label {

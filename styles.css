@@ -798,6 +798,16 @@ optgroup {
     }
 }
 
+@media (max-width: 576px) {
+    optgroup {
+        color: #9333ea !important;
+        background-color: rgba(147, 51, 234, 0.15) !important;
+        padding-left: 8px !important;
+        border-radius: 4px !important;
+        font-weight: bold !important;
+    }
+}
+
 .btn-confirm, .btn-correct {
     padding: 1rem 2rem;
     font-size: 1.2rem;

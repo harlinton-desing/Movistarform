@@ -259,7 +259,7 @@ body {
 /* Imágenes de encabezado */
 .header-image img,
 .form-header-image img {
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -467,6 +467,8 @@ body {
     align-items: center;
     z-index: 9999;
     animation: fadeIn 0.5s ease-out;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Modal de Consentimiento */
@@ -490,7 +492,7 @@ body {
 .consent-header .header-image {
     width: 100%;
     height: auto;
-    max-height: 300px;
+    max-height: 500px;
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 2rem;

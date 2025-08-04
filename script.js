@@ -112,7 +112,7 @@ function updatePlanPrice() {
 
   if (selectedOption && selectedOption.dataset.price) {
     const price = parseInt(selectedOption.dataset.price);
-    valorPlanInput.value = `$${price.toLocaleString('es-CO')}`;
+    valorPlanInput.value = `${price.toLocaleString('es-CO')}`;
   } else {
     valorPlanInput.value = '';
   }

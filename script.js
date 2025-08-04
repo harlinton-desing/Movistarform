@@ -112,7 +112,7 @@ function updatePlanPrice() {
 
   if (selectedOption && selectedOption.dataset.price) {
     const price = parseInt(selectedOption.dataset.price);
-    valorPlanInput.value = `${price.toLocaleString('es-CO')}`;
+    valorPlanInput.value = `$${price.toLocaleString('es-CO')}`;
   } else {
     valorPlanInput.value = '';
   }
@@ -305,22 +305,26 @@ function validateDates() {
 }
 
 function collectFormData() {
-  formData = {
-    nombreCompleto: document.getElementById('nombreCompleto').value.trim(),
-    tipoDocumento: document.getElementById('tipoDocumento').options[document.getElementById('tipoDocumento').selectedIndex].text,
-    numeroDocumento: document.getElementById('numeroDocumento').value.trim(),
-    fechaExpedicion: formatDate(document.getElementById('fechaExpedicion').value),
-    fechaNacimiento: formatDate(document.getElementById('fechaNacimiento').value),
-    correoElectronico: document.getElementById('correoElectronico').value.trim(),
-    direccionCompleta: document.getElementById('direccionCompleta').value.trim(),
-    departamento: document.getElementById('departamento').options[document.getElementById('departamento').selectedIndex].text,
-    municipio: document.getElementById('municipio').options[document.getElementById('municipio').selectedIndex].text,
-    barrio: document.getElementById('barrio').value.trim(),
-    estrato: document.getElementById('estrato').value,
-    celular: document.getElementById('celular').value.trim(),
-    plan: document.getElementById('plan').options[document.getElementById('plan').selectedIndex].text,
-    valorPlan: document.getElementById('valorPlan').value
-  };
+    formData = {
+        nombreCompleto: document.getElementById('nombreCompleto').value.trim(),
+        tipoDocumento: document.getElementById('tipoDocumento').options[document.getElementById('tipoDocumento').selectedIndex].text,
+        numeroDocumento: document.getElementById('numeroDocumento').value.trim(),
+        fechaExpedicion: formatDate(document.getElementById('fechaExpedicion').value),
+        fechaNacimiento: formatDate(document.getElementById('fechaNacimiento').value),
+        correoElectronico: document.getElementById('correoElectronico').value.trim(),
+        direccionCompleta: document.getElementById('direccionCompleta').value.trim(),
+        piso: document.getElementById('piso').value,
+        nombreConjunto: document.getElementById('nombreConjunto').value.trim(),
+        torre: document.getElementById('torre').value.trim(),
+        apartamento: document.getElementById('apartamento').value.trim(),
+        departamento: document.getElementById('departamento').options[document.getElementById('departamento').selectedIndex].text,
+        municipio: document.getElementById('municipio').options[document.getElementById('municipio').selectedIndex].text,
+        barrio: document.getElementById('barrio').value.trim(),
+        estrato: document.getElementById('estrato').value,
+        celular: document.getElementById('celular').value.trim(),
+        plan: document.getElementById('plan').options[document.getElementById('plan').selectedIndex].text,
+        valorPlan: document.getElementById('valorPlan').value
+    };
 }
 
 function formatDate(dateString) {
@@ -343,77 +347,125 @@ function hideSummaryModal() {
 }
 
 function generateSummaryHTML() {
-  return `
-    <div class="summary-item">
-      <span class="summary-label">👤 Nombre Completo:</span>
-      <span class="summary-value">${formData.nombreCompleto}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">📄 Tipo de Documento:</span>
-      <span class="summary-value">${formData.tipoDocumento}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">🔢 Número de Documento:</span>
-      <span class="summary-value">${formData.numeroDocumento}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">📅 Fecha de Expedición:</span>
-      <span class="summary-value">${formData.fechaExpedicion}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">🎂 Fecha de Nacimiento:</span>
-      <span class="summary-value">${formData.fechaNacimiento}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">📧 Correo Electrónico:</span>
-      <span class="summary-value">${formData.correoElectronico}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">🏠 Dirección:</span>
-      <span class="summary-value">${formData.direccionCompleta}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">🏢 Departamento:</span>
-      <span class="summary-value">${formData.departamento}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">🏘️ Municipio:</span>
-      <span class="summary-value">${formData.municipio}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">🏡 Barrio:</span>
-      <span class="summary-value">${formData.barrio}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">⚡ Estrato:</span>
-      <span class="summary-value">${formData.estrato}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">📱 Celular:</span>
-      <span class="summary-value">${formData.celular}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">📺 Plan:</span>
-      <span class="summary-value">${formData.plan}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">💰 Valor del Plan:</span>
-      <span class="summary-value">${formData.valorPlan}</span>
-    </div>
-  `;
+    return `
+        <div class="summary-item">
+            <span class="summary-label">👤 Nombre Completo:</span>
+            <span class="summary-value">${formData.nombreCompleto}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">📄 Tipo de Documento:</span>
+            <span class="summary-value">${formData.tipoDocumento}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">🔢 Número de Documento:</span>
+            <span class="summary-value">${formData.numeroDocumento}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">📅 Fecha de Expedición:</span>
+            <span class="summary-value">${formData.fechaExpedicion}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">🎂 Fecha de Nacimiento:</span>
+            <span class="summary-value">${formData.fechaNacimiento}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">📧 Correo Electrónico:</span>
+            <span class="summary-value">${formData.correoElectronico}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">🏠 Dirección:</span>
+            <span class="summary-value">${formData.direccionCompleta}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Piso:</span>
+            <span class="summary-value">${formData.piso || 'No especificado'}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Nombre del Conjunto:</span>
+            <span class="summary-value">${formData.nombreConjunto || 'No especificado'}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Torre:</span>
+            <span class="summary-value">${formData.torre || 'No especificado'}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Apartamento:</span>
+            <span class="summary-value">${formData.apartamento || 'No especificado'}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">🏢 Departamento:</span>
+            <span class="summary-value">${formData.departamento}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">🏘️ Municipio:</span>
+            <span class="summary-value">${formData.municipio}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">🏡 Barrio:</span>
+            <span class="summary-value">${formData.barrio}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">⚡ Estrato:</span>
+            <span class="summary-value">${formData.estrato}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">📱 Celular:</span>
+            <span class="summary-value">${formData.celular}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">📺 Plan:</span>
+            <span class="summary-value">${formData.plan}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">💰 Valor del Plan:</span>
+            <span class="summary-value">${formData.valorPlan}</span>
+        </div>
+    `;
 }
 
-function handleConfirm() {
-  const whatsappMessage = generateWhatsAppMessage();
-  const whatsappURL = `https://wa.me/573102689105?text=${encodeURIComponent(whatsappMessage)}`;
+async function handleConfirm() {
+    // Guardar en Google Sheets
+    const saveResult = await saveToGoogleSheets(formData);
+    if (!saveResult || saveResult.result !== 'success') {
+        showCustomAlert('⚠️ ERROR', 'No se pudo guardar la información en la hoja de cálculo. Se continuará con el envío a WhatsApp.', 'warning');
+        // Continuar con WhatsApp a pesar del error
+        openWhatsAppAndReset();
+        return;
+    }
 
-  showCustomAlert('✅ ÉXITO', 'Sus datos han sido procesados correctamente. Se abrirá WhatsApp para enviar la información.', 'success');
+    // Abrir WhatsApp
+    openWhatsAppAndReset();
+}
 
-  setTimeout(() => {
-    window.open(whatsappURL, '_blank');
-    hideSummaryModal();
-    resetForm();
-  }, 2000);
+function openWhatsAppAndReset() {
+    const whatsappMessage = generateWhatsAppMessage();
+    const whatsappURL = `https://wa.me/573102689105?text=${encodeURIComponent(whatsappMessage)}`;
+
+    showCustomAlert('✅ ÉXITO', 'Sus datos han sido procesados correctamente. Se abrirá WhatsApp para enviar la información.', 'success');
+
+    setTimeout(() => {
+        window.open(whatsappURL, '_blank');
+        hideSummaryModal();
+        resetForm();
+    }, 2000);
+}
+
+async function saveToGoogleSheets(data) {
+  const url = 'https://script.google.com/macros/s/AKfycbxBxcgRNbm2OUEFkUdjSjFb-3DKZSNbLLm6KslEUT2kccmulETtHgu1FdfLL7e-RHxz8g/exec';
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error guardando en Google Sheets:', error);
+    return null;
+  }
 }
 
 function generateWhatsAppMessage() {

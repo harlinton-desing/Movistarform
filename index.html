@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Formulario de Tratamiento de Datos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <!-- Partículas de fondo -->
@@ -22,10 +22,10 @@
     <div id="consentModal" class="modal-overlay">
         <div class="consent-container">
             <div class="consent-header">
-                <img src="imagen/Pin en Anime goth_files/05b2cf4cffdf980a521e29c9ad488d06.0000000.jpg" 
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e95f75d0-8a3c-4dc0-9af9-1fdb040ac8a4.png" 
                      alt="Banner de tratamiento de datos personales" 
                      class="header-image"
-                     onerror="this.style.display='none';">
+                     onerror="this.style.display='none';" />
             </div>
             <div class="consent-content">
                 <h1 class="consent-title gamer-title neon-text">TRATAMIENTO DE DATOS</h1>
@@ -44,19 +44,19 @@
 
     <!-- Formulario Principal -->
     <div id="mainForm" class="main-form-container screen-container" style="display: none;">
-         <div class="video-container">
-    <video autoplay muted loop playsinline>
-      <source src="video/video 2.mp4" type="video/mp4" />
-      Tu navegador no soporta el elemento de video.
-    </video>
-  </div>
+        <div class="form-header">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1d3a6752-790d-41c3-9c35-c92fa6d1ba49.png" 
+                 alt="Banner del formulario de registro" 
+                 class="form-header-image"
+                 onerror="this.style.display='none';" />
+        </div>
 
         <div class="container">
             <form id="registrationForm" class="registration-form gamer-card animate-slide-in-bottom">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="nombreCompleto" class="form-label text-purple">Nombre Completo *</label>
-                        <input type="text" class="form-control gamer-input" id="nombreCompleto" required>
+                        <input type="text" class="form-control gamer-input" id="nombreCompleto" required />
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="tipoDocumento" class="form-label text-purple">Tipo de Documento *</label>
@@ -64,8 +64,6 @@
                             <option value="">Seleccionar...</option>
                             <option value="CC">Cédula de Ciudadanía</option>
                             <option value="CE">Cédula de Extranjería</option>
-                            <option value="TI">Tarjeta de Identidad</option>
-                            <option value="PP">Pasaporte</option>
                         </select>
                     </div>
                 </div>
@@ -73,26 +71,51 @@
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label for="numeroDocumento" class="form-label text-purple">Número de Documento *</label>
-                        <input type="text" class="form-control gamer-input" id="numeroDocumento" required>
+                        <input type="text" class="form-control gamer-input" id="numeroDocumento" required />
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="fechaExpedicion" class="form-label text-purple">Fecha de Expedición *</label>
-                        <input type="date" class="form-control gamer-input" id="fechaExpedicion" required>
+                        <input type="date" class="form-control gamer-input" id="fechaExpedicion" required placeholder="dd/mm/aaaa" pattern="\d{4}-\d{2}-\d{2}" title="Formato: aaaa-mm-dd" />
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="fechaNacimiento" class="form-label text-purple">Fecha de Nacimiento *</label>
-                        <input type="date" class="form-control gamer-input" id="fechaNacimiento" required>
+                        <input type="date" class="form-control gamer-input" id="fechaNacimiento" required placeholder="dd/mm/aaaa" pattern="\d{4}-\d{2}-\d{2}" title="Formato: aaaa-mm-dd" />
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="correoElectronico" class="form-label text-purple">Correo Electrónico *</label>
-                        <input type="email" class="form-control gamer-input" id="correoElectronico" required>
+                        <input type="email" class="form-control gamer-input" id="correoElectronico" required />
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="direccionCompleta" class="form-label text-purple">Dirección Completa *</label>
-                        <input type="text" class="form-control gamer-input" id="direccionCompleta" placeholder="Calle, número, torre, apartamento" required>
+                        <input type="text" class="form-control gamer-input" id="direccionCompleta" placeholder="Calle, número," required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="piso" class="form-label text-purple">Piso *</label>
+                        <select class="form-select gamer-input" id="piso">
+                            <option value="">Seleccionar piso...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="nombreConjunto" class="form-label text-purple">Nombre del Conjunto</label>
+                        <input type="text" class="form-control gamer-input" id="nombreConjunto"  placeholder="solo si aplica" />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="torre" class="form-label text-purple">Torre</label>
+                        <input type="text" class="form-control gamer-input" id="torre" placeholder="solo si aplica" />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="apartamento" class="form-label text-purple">Apartamento</label>
+                        <input type="text" class="form-control gamer-input" id="apartamento"  placeholder="solo si aplica" />
+                    </div>
                 </div>
 
                 <div class="row">
@@ -136,14 +159,14 @@
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="municipio" class="form-label text-purple">Ciudad ó Municipio *</label>
+                        <label for="municipio" class="form-label text-purple">Municipio *</label>
                         <select class="form-select gamer-input" id="municipio" required disabled>
                             <option value="">Seleccionar municipio...</option>
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="barrio" class="form-label text-purple">Barrio *</label>
-                        <input type="text" class="form-control gamer-input" id="barrio" required>
+                        <input type="text" class="form-control gamer-input" id="barrio" required />
                     </div>
                 </div>
 
@@ -162,29 +185,29 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="celular" class="form-label text-purple">Celular *</label>
-                        <input type="tel" class="form-control gamer-input" id="celular" required>
+                        <input type="tel" class="form-control gamer-input" id="celular" required />
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="plan" class="form-label text-purple">Plan *</label>
                         <select class="form-select gamer-input" id="plan" required>
                             <option value="">Seleccionar plan...</option>
-                            <optgroup label="TRIO">
+                            <optgroup label="TRIO" style="color: blue;">
                                 <option value="trio1" data-price="92393">INTERNET FIBRA 900MG TV DIGITAL TV APP 74 CANALES</option>
                                 <option value="trio2" data-price="100093">INTERNET FIBRA 900MG TV DIGITAL TV APP 74 CANALES + DISNEY PLUS</option>
                                 <option value="trio3" data-price="102893">INTERNET 900MG TV DIGITAL TV APP + WIN FUTBOL</option>
                                 <option value="trio4" data-price="111293" data-estrato="6">INTERNET 900MG TV DIGITAL TV APP + NETFLIX (Solo Estrato 6)</option>
                             </optgroup>
-                            <optgroup label="DUOS">
+                            <optgroup label="DUOS"  style="color: blue;>
                                 <option value="duos1" data-price="65093">INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES</option>
                                 <option value="duos2" data-price="72793">INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES + DISNEY PLUS</option>
                                 <option value="duos3" data-price="74193">INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES + WIN FUTBOL</option>
                             </optgroup>
-                            <optgroup label="NAKED">
+                            <optgroup label="NAKED"  style="color: blue;>
                                 <option value="naked1" data-price="62993">INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES</option>
                                 <option value="naked2" data-price="70693">INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES + DISNEY PLUS</option>
                                 <option value="naked3" data-price="72093">INTERNET FIBRA 900MG TV DIGITAL TV APP 9 CANALES + WIN FUTBOL</option>
                             </optgroup>
-                            <optgroup label="EXCLUSIVA FIBRA 900MG">
+                            <optgroup label="EXCLUSIVA FIBRA 900MG"  style="color: blue;>
                                 <option value="exclusiva1" data-price="89990">INTERNET FIBRA 900MG + POSTPAGO ILIMITADO + WIN FUTBOL + PERPLEXITY PRO * 12 MESES + TV DIGITAL TV APP 9 CANALES</option>
                                 <option value="exclusiva2" data-price="89990">INTERNET FIBRA 900MG + POSTPAGO ILIMITADO + DISNEY PLUS + PERPLEXITY PRO * 12 MESES + TV DIGITAL TV APP 9 CANALES</option>
                             </optgroup>
@@ -195,7 +218,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="valorPlan" class="form-label text-purple">Valor del Plan</label>
-                        <input type="text" class="form-control gamer-input" id="valorPlan" readonly>
+                        <input type="text" class="form-control gamer-input" id="valorPlan" readonly />
                     </div>
                 </div>
 

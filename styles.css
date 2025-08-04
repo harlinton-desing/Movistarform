@@ -492,11 +492,17 @@ body {
 .consent-header .header-image {
     width: 100%;
     height: auto;
-    max-height: 500px;
-    object-fit: cover;
+    max-height: none;
+    object-fit: contain;
     border-radius: 15px;
     margin-bottom: 2rem;
     border: 2px solid rgba(147, 51, 234, 0.6);
+}
+
+@media (max-width: 576px) {
+    .consent-header .header-image {
+        max-height: 300px;
+    }
 }
 
 .consent-title {

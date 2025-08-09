@@ -135,7 +135,7 @@ function updatePlanPrice() {
 
   if (selectedOption && selectedOption.dataset.price) {
     const price = parseInt(selectedOption.dataset.price);
-    valorPlanInput.value = `$${price.toLocaleString('es-CO')}`;
+    valorPlanInput.value = `${price.toLocaleString('es-CO')}`;
   } else {
     valorPlanInput.value = '';
   }
@@ -459,6 +459,27 @@ function generateSummaryHTML() {
             <span class="summary-value">${formData.valorPlan}</span>
         </div>
     `;
+}
+
+function formatDate(dateString) {
+  if (!dateString) return '';
+  const parts = dateString.split('/');
+  if (parts.length !== 3) return dateString; // fallback
+
+  const day = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10);
+  const year = parseInt(parts[2], 10);
+
+  // Create a date object with correct values (month is 0-based)
+  // Use UTC to avoid timezone issues
+  const date = new Date(Date.UTC(day, month - 1, year));
+
+  // Format date as dd/mm/yyyy
+  const formattedDay = ('0' + date.getUTCDate()).slice(-2);
+  const formattedMonth = ('0' + (date.getUTCMonth() + 1)).slice(-2);
+  const formattedYear = date.getUTCFullYear();
+
+  return `${formattedDay}/${formattedMonth}/${formattedYear}`;
 }
 
 async function handleConfirm() {

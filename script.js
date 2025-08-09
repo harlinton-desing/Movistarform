@@ -1,4 +1,3 @@
-// Datos de departamentos y municipios principales de Colombia
 const departamentosMunicipios = {
   amazonas: ['Leticia', 'Puerto Nariño'],
   antioquia: ['Medellín', 'Bello', 'Itagüí', 'Envigado', 'Rionegro', 'Apartadó', 'Turbo', 'Caucasia'],
@@ -13,7 +12,7 @@ const departamentosMunicipios = {
   cesar: ['Valledupar', 'Aguachica', 'Codazzi'],
   choco: ['Quibdó', 'Istmina', 'Condoto'],
   cordoba: ['Montería', 'Cereté', 'Sahagún'],
-  cundinamarca: ['Fusagasugá', 'Girardot', 'Zipaquirá', 'Soacha'],
+  cundinamarca: ['Bogotá D.C.', 'Anapoima', 'Cajica', 'Cota', 'Facatativa', 'Funza', 'Fusagasuga', 'Girardot', 'La Calera', 'La Mesa', 'Madrid', 'Mosquera', 'Sibate', 'Sopo', 'Tocancipa', 'Ubate', 'Villeta', 'Zipaquira', 'Chia', 'Soacha', 'Puerto Colombia'],
   guainia: ['Inírida'],
   guaviare: ['San José del Guaviare', 'Calamar'],
   huila: ['Neiva', 'Pitalito', 'Garzón'],
@@ -31,8 +30,7 @@ const departamentosMunicipios = {
   tolima: ['Ibagué', 'Espinal', 'Melgar'],
   valle_cauca: ['Cali', 'Palmira', 'Buenaventura'],
   vaupes: ['Mitú'],
-  vichada: ['Puerto Carreño'],
-  bogota_dc: ['Bogotá D.C.']
+  vichada: ['Puerto Carreño']
 };
 
 let formData = {};
@@ -56,6 +54,26 @@ function setupEventListeners() {
   document.getElementById('submitCancelBtn').addEventListener('click', handleCancelSubmit);
   document.getElementById('closeCancelBtn').addEventListener('click', hideCancelModal);
   document.getElementById('closeErrorBtn').addEventListener('click', hideErrorModal);
+
+  // Nuevos listeners para tipo de vivienda
+  document.getElementById('tipoVivienda').addEventListener('change', handleTipoViviendaChange);
+}
+
+function handleTipoViviendaChange() {
+  const tipo = document.getElementById('tipoVivienda').value;
+  const casaFields = document.getElementById('casaFields');
+  const conjuntoFields = document.getElementById('conjuntoFields');
+
+  if (tipo === 'casa') {
+    casaFields.style.display = 'flex';
+    conjuntoFields.style.display = 'none';
+  } else if (tipo === 'conjunto') {
+    casaFields.style.display = 'none';
+    conjuntoFields.style.display = 'flex';
+  } else {
+    casaFields.style.display = 'none';
+    conjuntoFields.style.display = 'none';
+  }
 }
 
 function setupRealTimeValidation() {
@@ -88,7 +106,12 @@ function handleReject() {
 function updateMunicipios() {
   const departamentoSelect = document.getElementById('departamento');
   const municipioSelect = document.getElementById('municipio');
-  const selectedDepartamento = departamentoSelect.value;
+  let selectedDepartamento = departamentoSelect.value;
+
+  // Ajuste para que 'bogota_dc' coincida con 'cundinamarca'
+  if (selectedDepartamento === 'bogota_dc') {
+    selectedDepartamento = 'cundinamarca';
+  }
 
   municipioSelect.innerHTML = '<option value="">Seleccionar municipio...</option>';
 
@@ -112,7 +135,7 @@ function updatePlanPrice() {
 
   if (selectedOption && selectedOption.dataset.price) {
     const price = parseInt(selectedOption.dataset.price);
-    valorPlanInput.value = `${price.toLocaleString('es-CO')}`;
+    valorPlanInput.value = `$${price.toLocaleString('es-CO')}`;
   } else {
     valorPlanInput.value = '';
   }
@@ -305,6 +328,20 @@ function validateDates() {
 }
 
 function collectFormData() {
+    const tipoVivienda = document.getElementById('tipoVivienda').value;
+    let piso = '';
+    let nombreConjunto = '';
+    let torre = '';
+    let apartamento = '';
+
+    if (tipoVivienda === 'casa') {
+        piso = document.getElementById('piso').value;
+    } else if (tipoVivienda === 'conjunto') {
+        nombreConjunto = document.getElementById('nombreConjunto').value.trim();
+        torre = document.getElementById('torre').value.trim();
+        apartamento = document.getElementById('apartamento').value.trim();
+    }
+
     formData = {
         nombreCompleto: document.getElementById('nombreCompleto').value.trim(),
         tipoDocumento: document.getElementById('tipoDocumento').options[document.getElementById('tipoDocumento').selectedIndex].text,
@@ -313,10 +350,11 @@ function collectFormData() {
         fechaNacimiento: formatDate(document.getElementById('fechaNacimiento').value),
         correoElectronico: document.getElementById('correoElectronico').value.trim(),
         direccionCompleta: document.getElementById('direccionCompleta').value.trim(),
-        piso: document.getElementById('piso').value,
-        nombreConjunto: document.getElementById('nombreConjunto').value.trim(),
-        torre: document.getElementById('torre').value.trim(),
-        apartamento: document.getElementById('apartamento').value.trim(),
+        tipoVivienda,
+        piso,
+        nombreConjunto,
+        torre,
+        apartamento,
         departamento: document.getElementById('departamento').options[document.getElementById('departamento').selectedIndex].text,
         municipio: document.getElementById('municipio').options[document.getElementById('municipio').selectedIndex].text,
         barrio: document.getElementById('barrio').value.trim(),
@@ -426,11 +464,9 @@ function generateSummaryHTML() {
 async function handleConfirm() {
     // Guardar en Google Sheets
     const saveResult = await saveToGoogleSheets(formData);
+    // Continuar con WhatsApp aunque falle el guardado
     if (!saveResult || saveResult.result !== 'success') {
         showCustomAlert('⚠️ ERROR', 'No se pudo guardar la información en la hoja de cálculo. Se continuará con el envío a WhatsApp.', 'warning');
-        // Continuar con WhatsApp a pesar del error
-        openWhatsAppAndReset();
-        return;
     }
 
     // Abrir WhatsApp
@@ -439,7 +475,7 @@ async function handleConfirm() {
 
 function openWhatsAppAndReset() {
     const whatsappMessage = generateWhatsAppMessage();
-    const whatsappURL = `https://wa.me/573102689105?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappURL = `https://wa.me/573125198465?text=${encodeURIComponent(whatsappMessage)}`;
 
     showCustomAlert('✅ ÉXITO', 'Sus datos han sido procesados correctamente. Se abrirá WhatsApp para enviar la información.', 'success');
 
@@ -451,7 +487,7 @@ function openWhatsAppAndReset() {
 }
 
 async function saveToGoogleSheets(data) {
-  const url = 'https://script.google.com/macros/s/AKfycbxBxcgRNbm2OUEFkUdjSjFb-3DKZSNbLLm6KslEUT2kccmulETtHgu1FdfLL7e-RHxz8g/exec';
+  const url = 'https://script.google.com/macros/s/AKfycbx3BxROKhIAGX7F4U2-aRPPZlc2O21gAR489U44e7Qjq8PhmHnEZAgxHxRkYVCEx8YThQ/exec';
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -469,6 +505,19 @@ async function saveToGoogleSheets(data) {
 }
 
 function generateWhatsAppMessage() {
+  let viviendaDetalles = '';
+  if (formData.tipoVivienda === 'casa') {
+    viviendaDetalles = `• Tipo de Vivienda: Casa
+• Piso: ${formData.piso || 'No especificado'}`;
+  } else if (formData.tipoVivienda === 'conjunto') {
+    viviendaDetalles = `• Tipo de Vivienda: Conjunto
+• Nombre del Conjunto: ${formData.nombreConjunto || 'No especificado'}
+• Torre: ${formData.torre || 'No especificado'}
+• Apartamento: ${formData.apartamento || 'No especificado'}`;
+  } else {
+    viviendaDetalles = '• Tipo de Vivienda: No especificado';
+  }
+
   return `🌟 *NUEVA SOLICITUD DE SERVICIO* 🌟
 
 👤 *Datos Personales:*
@@ -483,6 +532,7 @@ function generateWhatsAppMessage() {
 
 🏠 *Ubicación:*
 • Dirección: ${formData.direccionCompleta}
+${viviendaDetalles}
 • Departamento: ${formData.departamento}
 • Municipio: ${formData.municipio}
 • Barrio: ${formData.barrio}
